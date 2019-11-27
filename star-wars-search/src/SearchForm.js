@@ -1,7 +1,15 @@
 import React from 'react';
-
+import ApiContext from './ApiContext'
 
 export default class FolderForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.props = props;
+        console.log(this.props);
+    }
+
+
+
     state = {
         characterName: { value: '', touched: false },
     };
@@ -17,31 +25,37 @@ export default class FolderForm extends React.Component {
             return "Character Name is required"
         }
         else if (characterName.length < 4 || characterName.length > 12) {
-            return 'Folder Name must between 4 and 12 characters long'
+            return 'Character Name must between 4 and 12 characters long'
         }
     }
 
     displayResults = (responseJson) => {
-        let characterName = this.state.characterName.value.trim()
-        responseJson.results.filter(function (result){
-            return result.name === characterName
+        let characterName = this.state.characterName.value.trim();
+        responseJson.results.filter(function (result) {
+            return result.name.includes(characterName)
         })
+
     }
 
-
     render() {
+        const value = {
+            displayResults: this.displayResults
+        };
         return (
-            <form className="search-form" onSubmit={() => this.props.handleSearchSubmit()}>
-                <label htmlFor="search-name">Who's name Shall you speak of?
+            <ApiContext.Provider value={value}>
+                <form className="search-form" onSubmit={(e) => this.props.handleSearchSubmit(e)}>
+                    <label htmlFor="search-name">Who's Name Shall you speak of?
                 {this.state.characterName.touched &&
-                        <p className="error">{this.validateSearchName()}</p>}
-                </label>
-                <input id="search-box" type="text" value={this.state.characterName.value}
-                    onChange={e => this.setCharacterName(e.target.value)} />
-                <button disabled={
-                    this.validateCharacterName()
-                }>Search the Galaxy!</button>
-            </form>
+                            <p className="error">{this.validateSearchName()}</p>
+                        }
+                    </label>
+                    <input id="search-box" type="text" value={this.state.characterName.value}
+                        onChange={e => this.setCharacterName(e.target.value)} />
+                    <button disabled={
+                        this.validateSearchName()
+                    }>Search the Galaxy!</button>
+                </form>
+            </ApiContext.Provider>
         )
     }
 
