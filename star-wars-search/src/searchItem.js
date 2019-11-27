@@ -7,27 +7,27 @@ export default class SearchItem extends Component {
         console.log(this.props);
     }
 
-    showResults = (
-        <section>
-            <h3 className="character-name">{this.props.searchResults[0].name}</h3>
-            <p className="home-world">Homeworld: {this.props.searchResults[0].homeworld}</p>
-            <p className="birth-year">Birth Year: {this.props.searchResults[0].birth_year}</p>
-            <p className="gender">Gender: {this.props.searchResults[0].gender}</p>
-        </section>
-    );
-
-    showDefault = (
-        <section>
-            <p>No one in this Galaxy....</p>
-        </section>
-    );
-
     render() {
+        let showResults;
         if (this.props.searchResults && this.props.searchResults.length > 0) {
-            return (this.showResults);
+            
+            showResults = <section>
+                <h3 className="character-name">{this.props.searchResults[0].name}</h3>
+                <p className="home-world">Homeworld: {this.props.homeWorld}</p>
+                <p className="birth-year">Birth Year: {this.props.searchResults[0].birth_year}</p>
+                <p className="gender">Gender: {this.props.searchResults[0].gender}</p>
+            </section>;
         }
         else {
-            return (this.showDefault);
+            showResults = <section>
+                <p>The Force grows restless</p>
+            </section>;
         }
+
+        return (
+            <div>
+                {showResults}
+            </div>
+        )
     }
 }

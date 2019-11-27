@@ -20,11 +20,7 @@ export default class FolderForm extends React.Component {
     }
 
     render() {
-        const value = {
-            displayResults: this.displayResults
-        };
         return (
-            <ApiContext.Provider value={value}>
                 <form className="search-form" onSubmit={(e) => this.props.handleSearchSubmit(e)}>
                     <label htmlFor="search-name">Who's Name Shall you speak of?
                 {this.props.characterName.touched &&
@@ -37,7 +33,6 @@ export default class FolderForm extends React.Component {
                         this.validateSearchName()
                     }>Search the Galaxy!</button>
                 </form>
-            </ApiContext.Provider>
         )
     }
 

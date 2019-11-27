@@ -8,7 +8,8 @@ import SearchItem from './searchItem'
 export default class App extends React.Component {
   state = {
     searchResults: [],
-    characterName: { value: '', touched: false }
+    characterName: { value: '', touched: false },
+    homeWorld: ''
   }
 
   static contextType = ApiContext;
@@ -41,13 +42,33 @@ export default class App extends React.Component {
         this.setState({
           searchResults: filteredSearch
         })
+        this.getHomeWorld();
         console.log(this.state.searchResults)
       })
       .catch(error => {
         console.error({ error })
       })
   }
-
+  
+  getHomeWorld = () => {
+    let homeWorld;
+    let url = this.state.searchResults[0].homeworld
+    console.log('bang');
+    fetch(`${url}`)
+      .then(function (response) {
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log('boom')
+        homeWorld = responseJson.name
+        this.setState({
+            homeWorld: homeWorld
+        })
+      })
+      .catch(error => {
+        console.error({ error })
+      })
+  }
 
 
   render() {
@@ -58,8 +79,9 @@ export default class App extends React.Component {
         </header>
         <Form handleSearchSubmit={this.handleSearchSubmit}
           characterName={this.state.characterName}
-          setCharacterName={this.setCharacterName} />
-        <SearchItem searchResults={this.state.searchResults} />
+          setCharacterName={this.setCharacterName}/>
+        <SearchItem searchResults={this.state.searchResults}
+        homeWorld={this.state.homeWorld}/>
       </main>
     );
   }
