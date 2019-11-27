@@ -9,32 +9,14 @@ export default class FolderForm extends React.Component {
     }
 
 
-
-    state = {
-        characterName: { value: '', touched: false },
-    };
-
-    setCharacterName = characterName => {
-        this.setState({ characterName: { value: characterName, touched: true } });
-    };
-
-
     validateSearchName = () => {
-        let characterName = this.state.characterName.value.trim();
+        let characterName = this.props.characterName.value.trim();
         if (characterName === 0) {
             return "Character Name is required"
         }
         else if (characterName.length < 4 || characterName.length > 12) {
             return 'Character Name must between 4 and 12 characters long'
         }
-    }
-
-    displayResults = (responseJson) => {
-        let characterName = this.state.characterName.value.trim();
-        responseJson.results.filter(function (result) {
-            return result.name.includes(characterName)
-        })
-
     }
 
     render() {
@@ -45,12 +27,12 @@ export default class FolderForm extends React.Component {
             <ApiContext.Provider value={value}>
                 <form className="search-form" onSubmit={(e) => this.props.handleSearchSubmit(e)}>
                     <label htmlFor="search-name">Who's Name Shall you speak of?
-                {this.state.characterName.touched &&
+                {this.props.characterName.touched &&
                             <p className="error">{this.validateSearchName()}</p>
                         }
                     </label>
-                    <input id="search-box" type="text" value={this.state.characterName.value}
-                        onChange={e => this.setCharacterName(e.target.value)} />
+                    <input id="search-box" type="text" value={this.props.characterName.value}
+                        onChange={e => this.props.setCharacterName(e.target.value)} />
                     <button disabled={
                         this.validateSearchName()
                     }>Search the Galaxy!</button>
