@@ -1,6 +1,8 @@
 // to run code use terminal and input the following line
 // node src/recursion-drills.js
 
+// Write a function that reverses a string. Take a string as input, reverse the string, and return the new string.
+
 let list = 3;
 
 const countSheep = function(input) {
