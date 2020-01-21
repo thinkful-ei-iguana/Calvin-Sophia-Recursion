@@ -3,6 +3,22 @@
 
 // Write a function that reverses a string. Take a string as input, reverse the string, and return the new string.
 
+
+const reverseString = function (str) {
+
+  let newString = '';
+
+  if(str === ''){
+    return ''
+  }
+
+  return reverseString(str.slice(1)) + str.charAt(0);
+}
+
+reverseString("hello world")
+
+//cat
+//tac
 let list = 3;
 
 const countSheep = function(input) {
@@ -36,6 +52,8 @@ function App() {
   console.log(a);
   console.log(b);
   console.log(powerCalculator(a, b));
+ 
+
 
   // let sheepList = 3;
 
