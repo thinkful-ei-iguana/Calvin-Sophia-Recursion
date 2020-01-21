@@ -1,17 +1,53 @@
+// to run code use terminal and input the following line
+// node src/recursion-drills.js
 
 let list = 3;
 
+const countSheep = function(input) {
+  if (input === 0) {
+    console.log("All sheeps have jumped over the fence");
+    return input;
+  }
+  console.log(`${input} : Another Sheep jumps over the fence`);
 
-const countSheep = function (input) {
+  return countSheep(input - 1);
+};
 
-    if (input === 0) {
-        console.log('All sheeps have jumped over the fence')
-        return input;
+console.log(countSheep(list));
+
+function App() {
+  const powerCalculator = function(a, b) {
+    if (b === 1) {
+      return 1;
     }
-    console.log(`${input} : Another Sheep jumps over the fence`)
+    if (b < 0) {
+      return "Exponent should be a positive value";
+    }
+    // if (b > 1) {
+    //   b--;
+    // }
+    return a * a * powerCalculator(a, b - 1);
+    // return a ** b;
+  };
+  let a = 10;
+  let b = 2;
+  console.log(a);
+  console.log(b);
+  console.log(powerCalculator(a, b));
 
-    return countSheep(input - 1);
+  // let sheepList = 3;
 
+  // const countSheep = function(input) {
+  //   if (input === 0) {
+  //     console.log("All sheeps have jumped over the fence");
+  //     return input;
+  //   }
+  //   console.log(`${input} : Another Sheep jumps over the fence`);
+
+  //   return countSheep(input - 1);
+  // };
+
+  // console.log(countSheep(sheepList));
 }
 
-console.log(countSheep(list))
+App();
