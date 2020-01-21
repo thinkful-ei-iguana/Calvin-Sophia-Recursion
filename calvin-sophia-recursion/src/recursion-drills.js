@@ -3,6 +3,14 @@
 
 // Write a function that reverses a string. Take a string as input, reverse the string, and return the new string.
 
+const tri = function (n) {
+  if(n <= 1) {
+    return n
+  }
+  return n + tri(n - 1)
+}
+
+tri(4);
 
 const reverseString = function (str) {
 
