@@ -8,86 +8,80 @@ let maze = [
   [" ", " ", " ", " ", " ", " ", "e"]
 ];
 
-const walkMaze = function(
-  maze,
-  row,
-  column,
-  direction,
-  path = [],
-  position = 0
-) {
-  if (maze[row][column] === "e") {
-    return console.log("Exit found" + stepsTaken);
-  }
-  // wall is a variable that indicates the array width/length so the borders are known
-  if (column >= maze[0].length || row >= maze.length) {
+// const walkMaze = function(
+//   maze,
+//   row,
+//   column,
+//   direction = "up",
+//   path,
+//   position = 0
+// ) {
+//   if (column < 0 || row < 0) {
+//     return;
+//   }
+//   // wall is a variable that indicates the array width/length so the borders are known
+//   if (column >= maze[0].length || row >= maze.length) {
+//     return;
+//   }
+//   // mark an index of the area when visiting
+//   path[position] = direction;
+//   position++;
+//   if (maze[row][column] === "e") {
+//     PrintPath(maze, row, column, direction, path, position - 1);
+//     console.log("Success! " + path);
+//     return;
+//   }
+//   // track path gone in
+//   // if a non valid end point is reached, position is decremented and try a new branch
+//   if (maze[row][column] === " ") {
+//     maze[row][column] = "x";
+//     walkMaze(maze, row - 1, column, "up", path, position);
+//     walkMaze(maze, row, column + 1, "right", path, position);
+//     walkMaze(maze, row + 1, column, "down", path, position);
+//     walkMaze(maze, row, column - 1, "left", path, position);
+//   }
+//   position--;
+// };
+// walkMaze(maze, 0, 0, "up", [], 0);
+// const PrintPath = function(path, startPos, endPos) {
+//   console.log("Found path to the exit: ");
+//   console.log(path);
+// };
+
+const mazeAll = function(maze, position = 0, row, col, direction = "S", path) {
+  if (col < 0 || row < 0) {
     return;
   }
-  // mark an index of the area when visiting
+  if (col >= maze[0].length || row >= maze.length) {
+    return;
+  }
+
   path[position] = direction;
   position++;
-  // track path gone in
-  // if a non valid end point is reached, position is decremented and try a new branch
-  if (maze[row][column] === " ") {
-    maze[row][column] = "x";
-    walkMaze(right);
-    walkMaze(down);
-    walkMaze(left);
-    walkMaze(up);
+
+  if (maze[row][col] === "e") {
+    PrintPath(path, 1, position - 1);
+    return;
   }
+  if (maze[row][col] === " ") {
+    // The current cell is free. Mark it as visited
+    maze[row][col] = "s";
+    // Invoke recursion to explore all possible directions
+    mazeAll(maze, position, row, col - 1, "L", path); // left
+    mazeAll(maze, position, row - 1, col, "U", path); // up
+    mazeAll(maze, position, row, col + 1, "R", path); // right
+    mazeAll(maze, position, row + 1, col, "D", path); // down
+    // Mark back the current cell as free
+    maze[row][col] = " ";
+  }
+  // Remove the last direction from the path
   position--;
-
-  // Go North: (x,y) -> (x,y-1)
-  // Go East: (x,y) -> (x+1,y)
-  // Go South: (x,y) -> (x,y+1)
-  // Go West: (x,y) -> (x-1,y)
 };
-// Write a recursive function that splits a string based on a separator (similar to String.prototype.split).
-// Don't use JS array's split function to solve this problem.
 
-//Fibonacci Write a recursive function that prints the Fibonacci sequence of a given number. The Fibonacci sequence is a series of numbers in which each number is the sum of the 2 preceding numbers. For example, the 7th Fibonacci number in a Fibonacci sequence is 13.
-//The sequence looks as follows: 1, 1, 2, 3, 5, 8, 13.
-
-// const walkMaze = function(maze, separator = "*") {
-//   // separator = positions in maze that are unable to move into
-//   // mazeDone is says to return out of the maze and call pathToExit
-//   let mazeDone = ["e"];
-//   // startingPosition is the rows starting point
-//   let startingPosition = maze[0];
-//   // currentPosition = current position in the maze
-//   let currentPosition = [maze];
-//   // open = empty strings that are adjacent
-//   let open = !separator && !columnEdges && !rowEdges;
-//   // pathToExit is the path from start of maze to the exit
-//   let pathToExit = [];
-
-// Go North: (x,y) -> (x,y-1)
-// Go East: (x,y) -> (x+1,y)
-// Go South: (x,y) -> (x,y+1)
-// Go West: (x,y) -> (x-1,y)
-
-//   // right
-//   if (currentPosition + 1 === open) {
-//     currentPosition++
-//   }
-//   // down
-//   // left
-//   // up
-//   if (currentPosition + walkMaze(right) === mazeDone) {
-//     return mazeDone(pathToExit);
-//   } else if (currentPosition + walkMaze(down))
-
-// if loop tries going right first, then down, then left, then up, if stuck retraces steps until first open position.
-
-// stuck (if stuck, reverse order and try first open direction that doesn't include pastPosi).
-
-//currentPosition and pastposition
-//separator asterisk
-//parameters: position, blocker
-//be aware of adjacent squares
-//array of adjacent squares
-//let adjs = []
-// };
+const PrintPath = function(path, startPos, endPos) {
+  console.log("Found path to the exit: ");
+  console.log(path);
+};
 
 // const stringSplit = function(strArr, separator) {
 //   if (strArr.length === 1) {
@@ -104,8 +98,6 @@ const walkMaze = function(
 //   const searchTerm = 'dog';
 // const indexOfFirst = paragraph.indexOf(searchTerm);
 // };
-
-exitMaze();
 
 // parameters begin counting at 0.
 // first parameter is which row you are on.
@@ -242,3 +234,235 @@ exitMaze();
 // }
 
 // App();
+
+// function anagrams(prefix, str){
+//   if(str.length <= 1){
+//       console.log(`The anagram is ${prefix}${str}`);
+//   } else {
+//       for(let i=0; i<str.length; i++){
+//           let currentLetter = str.substring(i, i+1);
+//           let previousLetters = str.substring(0,i);
+//           let afterLetters = str.substring(i+1);
+//           anagrams(prefix+currentLetter, previousLetters+afterLetters);
+//       }
+//   }
+// }
+// function printAnagram(word){
+//   //console.log(`The word for which we will find an anagram is ${word}`);
+//   anagrams(' ', word);
+
+// }
+
+// let organization = {
+// 	"Zuckerberg": {
+// 		"Schroepfer": {
+// 			"Bosworth": {
+// 				"Steve":{},
+// 				"Kyle":{},
+// 				"Andra":{}
+// 			},
+// 			"Zhao": {
+// 				"Richie":{},
+// 				"Sofia":{},
+// 				"Jen":{}
+// 			},
+// 			"Badros": {
+// 				"John":{},
+// 				"Mike":{},
+// 				"Pat":{}
+// 			},
+// 			"Parikh": {
+// 				"Zach":{},
+// 				"Ryan":{},
+// 				"Tes":{}
+// 			}
+// 		},
+// 		"Schrage": {
+// 			"VanDyck": {
+// 				"Sabrina":{},
+// 				"Michelle":{},
+// 				"Josh":{}
+// 			},
+// 			"Swain": {
+// 				"Blanch":{},
+// 				"Tom":{},
+// 				"Joe":{}
+// 			},
+// 			"Frankovsky": {
+// 				"Jasee":{},
+// 				"Brian":{},
+// 				"Margaret":{}
+// 			}
+// 		},
+// 		"Sandberg": {
+// 			"Goler": {
+// 				"Eddie":{},
+// 				"Julie":{},
+// 				"Annie":{}
+// 			},
+// 			"Hernandez": {
+// 				"Rowi":{},
+// 				"Inga":{},
+// 				"Morgan":{}
+// 			},
+// 			"Moissinac": {
+// 				"Amy":{},
+// 				"Chuck":{},
+// 				"Vinni":{}
+// 			},
+// 			"Kelley": {
+// 				"Eric":{},
+// 				"Ana":{},
+// 				"Wes":{}
+// 			}
+// }}};
+// */
+// function traverseA(data, depth = 0) {
+// 	let indent = " ".repeat(depth * 4);
+// 	Object.keys(data).forEach(key => {
+// 		console.log(indent + key);
+// 		traverseA(data[key], depth + 1)
+// 	});
+// }
+// //another version of the solution
+// function traverseB(node, indent=0) {
+// 	for (var key in node) {
+// 		console.log(" ".repeat(indent), key);
+// 		traverseB(node[key], indent + 4);
+// 	}
+// }
+
+//Write a recursive function that prints out the binary representation of a given number.
+// input: 5
+//output: 101
+
+// function binaryRep(input){
+//   if(input<=0){
+//       return '';
+//   }
+//   let binary = Math.floor(input%2);
+//   return binaryRep(Math.floor(input/2)) + binary
+
+// }
+
+// function main(){
+//   let base = 10;
+//   let exponent = 2;
+//   let exponentNeg = -2;
+//   let str = 'tauhida'
+//   let triNum = 5;
+//   let myString = '03/14/2019';
+//   let seperator = '/';
+
+//   let myMaze = [
+//       [' ', ' ', ' ', '*', ' ', ' ', ' '],
+//       ['*', '*', ' ', '*', ' ', '*', ' '],
+//       [' ', ' ', ' ', ' ', ' ', ' ', ' '],
+//       [' ', '*', '*', '*', '*', '*', ' '],
+//       [' ', ' ', ' ', ' ', ' ', ' ', 'e']
+//   ];
+//   let mySmallMaze = [
+//       [' ', ' ', ' '],
+//       [' ', '*', ' '],
+//       [' ', ' ', 'e']
+//   ];
+//   let path = [];
+//   let word = 'east'
+
+//   let organization = {
+//   "Zuckerberg": {
+//     "Schroepfer": {
+//       "Bosworth": {
+//         "Steve":{},
+//         "Kyle":{},
+//         "Andra":{}
+//       },
+//       "Zhao": {
+//         "Richie":{},
+//         "Sofia":{},
+//         "Jen":{}
+//       },
+//       "Badros": {
+//         "John":{},
+//         "Mike":{},
+//         "Pat":{}
+//       },
+//       "Parikh": {
+//         "Zach":{},
+//         "Ryan":{},
+//         "Tes":{}
+//       }
+//     },
+//     "Schrage": {
+//       "VanDyck": {
+//         "Sabrina":{},
+//         "Michelle":{},
+//         "Josh":{}
+//       },
+//       "Swain": {
+//         "Blanch":{},
+//         "Tom":{},
+//         "Joe":{}
+//       },
+//       "Frankovsky": {
+//         "Jasee":{},
+//         "Brian":{},
+//         "Margaret":{}
+//       }
+//     },
+//     "Sandberg": {
+//       "Goler": {
+//         "Eddie":{},
+//         "Julie":{},
+//         "Annie":{}
+//       },
+//       "Hernandez": {
+//         "Rowi":{},
+//         "Inga":{},
+//         "Morgan":{}
+//       },
+//       "Moissinac": {
+//         "Amy":{},
+//         "Chuck":{},
+//         "Vinni":{}
+//       },
+//       "Kelley": {
+//         "Eric":{},
+//         "Ana":{},
+//         "Wes":{}
+//       }
+// }}};
+//   let num = 25;
+
+//   let fibSeq = 7;
+//   let arr = [];
+
+//   let factNum = 4;
+
+//   countSheep(3);
+//   console.log(powerCalculatorRec(base, exponent));
+//   console.log(powerCalculatorRec(base, exponentNeg));
+//   console.log(reverseString(str));
+//   console.log(triangle(triNum))
+
+//   console.log(split(myString, seperator))
+
+//   for (let i=1; i<=fibSeq; i++){
+//       arr.push(fibonacci(i))
+//     }
+//   console.log(arr);
+
+//   console.log(factorial(factNum))
+
+//   maze(myMaze,0,0, 0, 'S', path);
+//   mazeAll(myMaze,0,0, 0, 'S', path);
+
+//   printAnagram(word);
+
+//   traverseA(organization);
+
+//   console.log(binaryRep(num))
+
+// }
+
+// main();
